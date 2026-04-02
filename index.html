@@ -29,6 +29,19 @@
     .kdot { width:7px; height:7px; border-radius:50%; background:var(--text-3); flex-shrink:0; }
     .kdot.ok { background:var(--green); }
 
+    /* TABS */
+    .tabs { display:flex; gap:6px; padding:0 16px; margin-bottom:-4px; }
+    .tab { flex:1; padding:10px; background:var(--surface); border:1px solid var(--border); border-bottom:none; border-radius:12px 12px 0 0; font-family:inherit; font-size:13px; font-weight:500; color:var(--text-3); cursor:pointer; transition:color 0.15s,background 0.15s; text-align:center; }
+    .tab.active { color:var(--text); background:var(--bg); border-color:var(--border-s); }
+    .tab-panel { display:none; }
+    .tab-panel.active { display:flex; flex-direction:column; gap:10px; }
+
+    /* MSG2 */
+    .msg2-card { background:var(--surface); border-radius:var(--r); border:1px solid var(--border); overflow:hidden; }
+    .msg2-top { padding:12px 16px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border); }
+    .msg2-badge { font-size:12px; font-weight:500; color:var(--text-2); background:var(--bg); padding:3px 10px; border-radius:20px; }
+    .msg2-body { padding:16px; font-size:14px; line-height:1.8; color:var(--text); white-space:pre-wrap; }
+
     main { padding:0 16px; display:flex; flex-direction:column; gap:10px; }
 
     .input-card { background:var(--surface); border-radius:var(--r); border:1px solid var(--border); overflow:hidden; transition:border-color 0.2s; }
@@ -118,54 +131,122 @@
   </nav>
   <main>
 
-    <!-- ONBOARDING (visible seulement si pas configuré) -->
+    <!-- ONBOARDING -->
     <div class="onboard-banner" id="onboard-banner" style="display:none">
       <div class="onboard-icon">👋</div>
       <div class="onboard-text">
         <div class="onboard-title">Bienvenue ! Configure ton profil</div>
-        <div class="onboard-sub">Ajoute ta clé API, ton prénom/nom et ton numéro pour que l'app génère tes messages personnalisés.</div>
+        <div class="onboard-sub">Ajoute ta clé API, ton nom et ton numéro pour que l'app génère tes messages personnalisés.</div>
         <button class="onboard-btn" id="onboard-cta">Configurer maintenant →</button>
       </div>
     </div>
 
-    <!-- DESCRIPTION -->
-    <div class="input-card">
-      <div class="input-top">
-        <div class="input-label">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="1" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/><line x1="3" y1="4" x2="9" y2="4" stroke="currentColor" stroke-width="1.2"/><line x1="3" y1="6.5" x2="9" y2="6.5" stroke="currentColor" stroke-width="1.2"/><line x1="3" y1="9" x2="6" y2="9" stroke="currentColor" stroke-width="1.2"/></svg>
-          Description
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab active" id="tab1" onclick="switchTab(1)">Message 1</button>
+      <button class="tab" id="tab2" onclick="switchTab(2)">Message 2</button>
+      <button class="tab" id="tab3" onclick="switchTab(3)">Message 3</button>
+    </div>
+
+    <!-- PANEL 1 -->
+    <div class="tab-panel active" id="panel1">
+      <div class="input-card">
+        <div class="input-top">
+          <div class="input-label">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="1" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/><line x1="3" y1="4" x2="9" y2="4" stroke="currentColor" stroke-width="1.2"/><line x1="3" y1="6.5" x2="9" y2="6.5" stroke="currentColor" stroke-width="1.2"/><line x1="3" y1="9" x2="6" y2="9" stroke="currentColor" stroke-width="1.2"/></svg>
+            Description
+          </div>
+          <button class="paste-btn" id="paste-btn">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="3" y="2" width="7" height="9" rx="1.5" stroke="currentColor" stroke-width="1.1"/><path d="M3 4H2a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-1" stroke="currentColor" stroke-width="1.1"/></svg>
+            <span id="paste-label">Coller</span>
+          </button>
         </div>
-        <button class="paste-btn" id="paste-btn">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="3" y="2" width="7" height="9" rx="1.5" stroke="currentColor" stroke-width="1.1"/><path d="M3 4H2a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-1" stroke="currentColor" stroke-width="1.1"/></svg>
-          <span id="paste-label">Coller</span>
+        <textarea id="desc" placeholder="La description de l'annonce apparaîtra ici…"></textarea>
+        <div class="clear-row" id="clear-row" style="display:none">
+          <button class="clear-btn" id="clear-btn">Effacer ✕</button>
+        </div>
+      </div>
+      <button class="gen-btn" id="gen-btn">Générer le message</button>
+
+      <div style="background:var(--green-bg);border-radius:var(--r-sm);padding:12px 14px;font-size:12px;color:#2d6a4a;line-height:1.7;">
+        <div style="font-weight:500;margin-bottom:4px;color:var(--green);">💡 Comment ça marche ?</div>
+        1. Ouvre LeBonCoin et trouve une annonce qui t'intéresse<br>
+        2. Maintiens ton doigt sur la description — un bouton <strong>Copier</strong> apparaît, clique dessus<br>
+        3. Reviens ici et appuie sur le bouton <strong>Coller</strong> en haut du champ<br>
+        4. Clique sur <strong>Générer le message</strong> — ton message est prêt !
+      </div>
+      <div class="loading" id="loading">
+        <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        <div class="loading-text">Analyse en cours…</div>
+      </div>
+      <div class="result-card" id="result-card">
+        <div class="result-top">
+          <div class="result-badge">Message prêt</div>
+          <button class="result-regen" id="regen-btn">Regénérer</button>
+        </div>
+        <div class="result-msg" id="result-msg"></div>
+        <button class="copy-btn" id="copy-btn">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M2 10V2.5A.5.5 0 0 1 2.5 2H10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          <span id="copy-label">Copier</span>
         </button>
       </div>
-      <textarea id="desc" placeholder="La description de l'annonce apparaîtra ici…"></textarea>
-      <div class="clear-row" id="clear-row" style="display:none">
-        <button class="clear-btn" id="clear-btn">Effacer ✕</button>
+      <div class="error-card" id="error-card"></div>
+    </div>
+
+    <!-- PANEL 2 -->
+    <div class="tab-panel" id="panel2">
+      <div class="msg2-card">
+        <div class="msg2-top">
+          <div class="msg2-badge">Réponse au propriétaire</div>
+        </div>
+        <div class="msg2-body" id="msg2-body"></div>
+        <button class="copy-btn" id="copy-btn2">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M2 10V2.5A.5.5 0 0 1 2.5 2H10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          <span id="copy-label2">Copier</span>
+        </button>
+      </div>
+      <div style="background:var(--green-bg);border-radius:var(--r-sm);padding:12px 14px;font-size:12px;color:#2d6a4a;line-height:1.7;">
+        <div style="font-weight:500;margin-bottom:4px;color:var(--green);">💬 Quand utiliser ce message ?</div>
+        Quand le propriétaire te répond avec des questions comme :<br>
+        <span style="opacity:0.85">— "Quelle est votre situation ?"<br>
+        — "Pouvez-vous m'en dire plus sur votre profil ?"<br>
+        — "Vous êtes étudiant, salarié ?"<br>
+        — "Avez-vous des garanties ?"</span>
       </div>
     </div>
 
-    <button class="gen-btn" id="gen-btn">Générer le message</button>
+    <!-- PANEL 3 -->
+    <div class="tab-panel" id="panel3">
 
-    <div class="loading" id="loading">
-      <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-      <div class="loading-text">Analyse en cours…</div>
-    </div>
-
-    <div class="result-card" id="result-card">
-      <div class="result-top">
-        <div class="result-badge">Message prêt</div>
-        <button class="result-regen" id="regen-btn">Regénérer</button>
+      <!-- ALERTE -->
+      <div style="background:#fff8e1;border-radius:var(--r-sm);padding:12px 14px;font-size:12px;color:#7a5c00;line-height:1.7;border:1px solid #ffe082;">
+        <div style="font-weight:600;margin-bottom:4px;color:#b45309;">⚠️ Important — à lire avant d'envoyer</div>
+        Ne jamais copier-coller ce texte directement dans LeBonCoin — tu risques de te faire bloquer ton compte. LeBonCoin détecte les démarches professionnelles et peut suspendre ton compte si ce type de message est envoyé via leur messagerie.<br><br>
+        <strong>La bonne méthode :</strong> génère le PDF ci-dessous et envoie-le en <strong>pièce jointe directement sur LeBonCoin</strong>. Le propriétaire reçoit un fichier, LeBonCoin ne peut pas lire son contenu — tu ne risques rien.
       </div>
-      <div class="result-msg" id="result-msg"></div>
-      <button class="copy-btn" id="copy-btn">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M2 10V2.5A.5.5 0 0 1 2.5 2H10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-        <span id="copy-label">Copier</span>
+
+      <button class="gen-btn" id="pdf-btn">
+        <span>⬇️</span>
+        <span>Générer le PDF</span>
       </button>
+
+      <div class="msg2-card">
+        <div class="msg2-top">
+          <div class="msg2-badge">Lettre de présentation</div>
+        </div>
+        <div class="msg2-body" id="msg3-body" style="font-size:13px;line-height:1.8;"></div>
+      </div>
+
+      <div style="background:var(--green-bg);border-radius:var(--r-sm);padding:12px 14px;font-size:12px;color:#2d6a4a;line-height:1.7;">
+        <div style="font-weight:500;margin-bottom:4px;color:var(--green);">💬 Quand utiliser ce message ?</div>
+        Si après le message 2 le propriétaire insiste pour avoir plus d'infos et ne souhaite toujours pas te rappeler.<br><br>
+        <span style="opacity:0.85">1. Clique sur <strong>Générer le PDF</strong> et sauvegarde-le sur ton téléphone<br>
+        2. Retourne sur LeBonCoin dans ta conversation avec le propriétaire<br>
+        3. Envoie le PDF en <strong>pièce jointe</strong> — LeBonCoin ne peut pas lire le contenu d'un PDF, tu ne risques aucun blocage</span>
+      </div>
+
     </div>
 
-    <div class="error-card" id="error-card"></div>
   </main>
 </div>
 
@@ -234,6 +315,116 @@ function syncDot() {
   const ok = isConfigured();
   document.getElementById("kdot").classList.toggle("ok", ok);
 }
+
+// TABS
+function switchTab(n) {
+  [1,2,3].forEach(i => {
+    document.getElementById("tab"+i).classList.toggle("active", i===n);
+    document.getElementById("panel"+i).classList.toggle("active", i===n);
+  });
+  if (n===2) renderMsg2();
+  if (n===3) renderMsg3();
+}
+
+function renderMsg2() {
+  const phone = getPhone() || "votre numéro";
+  const name = getName() ? "Monsieur " + getName() : "Cordialement";
+  const msg = `Bonjour,\n\nOui, je peux tout à fait vous transmettre les éléments nécessaires. J'aimerais simplement échanger rapidement avec vous au sujet du bien, cela me permettra d'avoir un aperçu clair et de voir en même temps si cela peut correspondre.\n\nJe suis disponible au ${phone}.\n\nBien à vous,\n${name}`;
+  document.getElementById("msg2-body").textContent = msg;
+}
+
+function renderMsg3() {
+  const phone = getPhone() || "TÉLÉPHONE";
+  const name = getName() ? "M. " + getName() : "M./Mme NOM";
+  const msg = `Bonjour,\n\nVotre appartement est-il toujours disponible à la location ?\n\nJe suis à la recherche d'un logement à louer sur votre secteur dans le cadre de mon activité professionnelle et votre appartement est exactement du standing que je recherche. Je propose des hébergements à des clients professionnels et touristiques en déplacement qui viennent pour des séjours de courte ou moyenne durée. Je précise que nous souhaitons nous-même être votre locataire et rester le plus longtemps possible.\n\nVoici pourquoi notre collaboration pourrait vous intéresser :\n\n• Loyer garanti : En cas d'impayé, l'expulsion est rapide (1 mois).\n• Loyer avantageux : Nous pouvons discuter d'un loyer supérieur à celui indiqué dans votre annonce.\n• Entretien régulier : Nous prenons en charge l'entretien du logement et la gestion des éventuels problèmes ou dégâts.\n• Flexibilité et transparence : Vous gardez un accès au bien pour en vérifier l'état et pouvez récupérer votre logement à tout moment, sans justification.\n• Pas de turnover ni de vacances locatives : Notre objectif est de rester un maximum d'années possible locataire de votre bien.\n\nN'hésitez pas à me contacter pour en discuter davantage.\n\nCordialement,\n${name}\n${phone}`;
+  document.getElementById("msg3-body").textContent = msg;
+}
+
+document.getElementById("copy-btn2").onclick = () => copyMsg("msg2-body", "copy-btn2", "copy-label2");
+
+function copyMsg(bodyId, btnId, lblId) {
+  const msg = document.getElementById(bodyId).textContent;
+  navigator.clipboard.writeText(msg).catch(() => { const t=document.createElement("textarea"); t.value=msg; document.body.appendChild(t); t.select(); document.execCommand("copy"); document.body.removeChild(t); });
+  document.getElementById(btnId).classList.add("done");
+  document.getElementById(lblId).textContent = "Copié !";
+  setTimeout(() => { document.getElementById(btnId).classList.remove("done"); document.getElementById(lblId).textContent = "Copier"; }, 2500);
+}
+
+// PDF — génération d'un vrai fichier téléchargeable
+document.getElementById("pdf-btn").onclick = async () => {
+  const btn = document.getElementById("pdf-btn");
+  btn.textContent = "⏳ Génération...";
+  btn.disabled = true;
+
+  const phone = getPhone() || "TÉLÉPHONE";
+  const name = getName() ? "M. " + getName() : "M./Mme NOM";
+
+  // Charger jsPDF depuis CDN
+  if (!window.jspdf) {
+    await new Promise((res, rej) => {
+      const s = document.createElement("script");
+      s.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
+      s.onload = res; s.onerror = rej;
+      document.head.appendChild(s);
+    });
+  }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: "mm", format: "a4" });
+
+  const margin = 20;
+  const pageW = 210;
+  const contentW = pageW - margin * 2;
+  let y = 25;
+
+  // Titre supprimé
+  y = 20;
+
+  // Contenu
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(11);
+  doc.setTextColor(40, 40, 40);
+
+  const lines = [
+    "Bonjour,",
+    "",
+    "Votre appartement est-il toujours disponible à la location ?",
+    "",
+    "Je suis à la recherche d'un logement à louer sur votre secteur dans le cadre de mon activité",
+    "professionnelle et votre appartement est exactement du standing que je recherche. Je propose des",
+    "hébergements à des clients professionnels et touristiques en déplacement qui viennent pour des",
+    "séjours de courte ou moyenne durée. Je précise que nous souhaitons nous-même être votre",
+    "locataire et rester le plus longtemps possible.",
+    "",
+    "Voici pourquoi notre collaboration pourrait vous intéresser :",
+    "",
+    "  • Loyer garanti : En cas d'impayé, l'expulsion est rapide (1 mois).",
+    "  • Loyer avantageux : Nous pouvons discuter d'un loyer supérieur à celui de votre annonce.",
+    "  • Entretien régulier : Nous prenons en charge l'entretien et la gestion des éventuels dégâts.",
+    "  • Flexibilité et transparence : Vous gardez un accès au bien et pouvez le récupérer à tout",
+    "    moment, sans justification.",
+    "  • Pas de turnover ni de vacances locatives : Notre objectif est de rester le plus longtemps",
+    "    possible locataire de votre bien.",
+    "",
+    "N'hésitez pas à me contacter pour en discuter davantage.",
+    "",
+    "Cordialement,",
+    `${name}`,
+    `${phone}`,
+  ];
+
+  lines.forEach(line => {
+    if (y > 270) { doc.addPage(); y = 20; }
+    if (line === "") { y += 5; return; }
+    const split = doc.splitTextToSize(line, contentW);
+    doc.text(split, margin, y);
+    y += split.length * 6;
+  });
+
+  doc.save("informations-locataire.pdf");
+  btn.textContent = "⬇️ Générer le PDF";
+  btn.disabled = false;
+};
 
 window.addEventListener("DOMContentLoaded", () => {
   if (getKey()) document.getElementById("api-input").value = getKey();
