@@ -24,7 +24,6 @@
     nav { padding:56px 20px 20px; display:flex; align-items:flex-end; justify-content:space-between; }
     .nav-title { font-size:22px; font-weight:500; letter-spacing:-0.5px; }
     .nav-title .gold { display:inline-block; background:#c9a84c; color:#fff; border-radius:5px; padding:1px 8px 2px; font-size:18px; font-weight:400; letter-spacing:0.3px; vertical-align:middle; margin-left:2px; }
-    .nav-title span { color:var(--text-3); font-weight:300; }
     .nav-key { display:flex; align-items:center; gap:6px; font-size:13px; color:var(--text-2); background:var(--surface); border:1px solid var(--border); border-radius:20px; padding:6px 12px; cursor:pointer; transition:background 0.15s; font-family:inherit; }
     .nav-key:active { background:var(--bg); }
     .kdot { width:7px; height:7px; border-radius:50%; background:var(--text-3); flex-shrink:0; }
@@ -34,10 +33,16 @@
 
     .input-card { background:var(--surface); border-radius:var(--r); border:1px solid var(--border); overflow:hidden; transition:border-color 0.2s; }
     .input-card:focus-within { border-color:var(--border-s); }
-    .input-label { display:flex; align-items:center; gap:7px; padding:14px 16px 0; font-size:11px; font-weight:500; letter-spacing:0.6px; text-transform:uppercase; color:var(--text-3); }
-    textarea { width:100%; min-height:140px; padding:10px 16px 14px; font-family:inherit; font-size:14px; color:var(--text); background:transparent; border:none; outline:none; resize:none; line-height:1.6; }
+    .input-top { display:flex; align-items:center; justify-content:space-between; padding:14px 16px 0; }
+    .input-label { display:flex; align-items:center; gap:7px; font-size:11px; font-weight:500; letter-spacing:0.6px; text-transform:uppercase; color:var(--text-3); }
+    .paste-btn { display:flex; align-items:center; gap:5px; font-size:12px; font-weight:500; color:var(--text-2); background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:5px 10px; cursor:pointer; font-family:inherit; transition:background 0.15s; }
+    .paste-btn:active { background:var(--border); }
+    .paste-btn.done { color:var(--green); border-color:var(--green-bg); background:var(--green-bg); }
+    textarea { width:100%; min-height:130px; padding:10px 16px 14px; font-family:inherit; font-size:14px; color:var(--text); background:transparent; border:none; outline:none; resize:none; line-height:1.6; }
     textarea::placeholder { color:var(--text-3); }
-    .input-hint { padding:10px 16px 12px; font-size:12px; color:var(--text-3); line-height:1.5; border-top:1px solid var(--border); display:flex; gap:6px; align-items:flex-start; }
+    .clear-row { padding:0 16px 12px; display:flex; justify-content:flex-end; }
+    .clear-btn { font-size:12px; color:var(--text-3); background:none; border:none; font-family:inherit; cursor:pointer; padding:2px 0; }
+    .clear-btn:active { color:var(--text-2); }
 
     .gen-btn { width:100%; padding:16px; background:var(--accent); color:var(--accent-fg); border:none; border-radius:var(--r); font-family:inherit; font-size:15px; font-weight:500; cursor:pointer; letter-spacing:-0.2px; transition:opacity 0.15s,transform 0.1s; display:flex; align-items:center; justify-content:center; gap:8px; }
     .gen-btn:active { transform:scale(0.98); opacity:0.88; }
@@ -64,24 +69,33 @@
 
     .error-card { display:none; padding:14px 16px; background:var(--red-bg); border-radius:var(--r); border:1px solid rgba(185,28,28,0.15); font-size:13px; color:var(--red); line-height:1.6; white-space:pre-wrap; animation:fadeUp 0.25s ease; }
 
+    /* ONBOARDING BANNER */
+    .onboard-banner { background:var(--surface); border-radius:var(--r); border:1px solid var(--border); padding:14px 16px; display:flex; gap:12px; align-items:flex-start; }
+    .onboard-icon { font-size:20px; flex-shrink:0; margin-top:1px; }
+    .onboard-text { flex:1; }
+    .onboard-title { font-size:14px; font-weight:500; color:var(--text); margin-bottom:3px; }
+    .onboard-sub { font-size:12px; color:var(--text-2); line-height:1.5; }
+    .onboard-btn { margin-top:10px; display:inline-block; padding:8px 14px; background:var(--accent); color:var(--accent-fg); border-radius:var(--r-sm); font-size:13px; font-weight:500; cursor:pointer; border:none; font-family:inherit; }
+
     .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:100; align-items:flex-end; justify-content:center; }
     .modal-overlay.show { display:flex; }
-    .modal { background:var(--surface); border-radius:20px 20px 0 0; width:100%; max-width:440px; padding:0 0 44px; animation:slideUp 0.3s ease; }
+    .modal { background:var(--surface); border-radius:20px 20px 0 0; width:100%; max-width:440px; padding:0 0 44px; animation:slideUp 0.3s ease; max-height:90vh; overflow-y:auto; }
     @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
     .modal-handle { width:36px; height:4px; background:var(--border-s); border-radius:2px; margin:14px auto 22px; }
-    .modal-body { padding:0 20px; display:flex; flex-direction:column; gap:18px; }
+    .modal-body { padding:0 20px; display:flex; flex-direction:column; gap:20px; }
     .modal-title { font-size:17px; font-weight:500; letter-spacing:-0.3px; }
     .modal-section { display:flex; flex-direction:column; gap:8px; }
     .modal-lbl { font-size:11px; font-weight:500; letter-spacing:0.5px; text-transform:uppercase; color:var(--text-3); }
     .modal-row { display:flex; gap:8px; }
     .modal-input { flex:1; padding:11px 13px; border:1px solid var(--border-s); border-radius:var(--r-sm); font-family:'Geist',monospace; font-size:13px; color:var(--text); background:var(--bg); outline:none; transition:border-color 0.15s; }
+    .modal-input.regular { font-family:'Geist',sans-serif; }
     .modal-input:focus { border-color:var(--accent); }
     .modal-save { padding:11px 16px; background:var(--accent); color:var(--accent-fg); border:none; border-radius:var(--r-sm); font-family:inherit; font-size:14px; font-weight:500; cursor:pointer; transition:opacity 0.15s; white-space:nowrap; }
     .modal-save:active { opacity:0.8; }
     .modal-st { font-size:13px; display:none; align-items:center; gap:6px; }
     .modal-st.ok { display:flex; color:var(--green); }
     .modal-st.ko { display:flex; color:var(--red); }
-    .steps { background:var(--bg); border-radius:var(--r-sm); padding:14px; display:flex; flex-direction:column; gap:0; }
+    .steps { background:var(--bg); border-radius:var(--r-sm); padding:14px; display:flex; flex-direction:column; }
     .step { display:flex; gap:10px; align-items:flex-start; padding:8px 0; }
     .step:first-child { padding-top:0; }
     .step:last-child { padding-bottom:0; }
@@ -90,6 +104,7 @@
     .st { font-size:13px; color:var(--text-2); line-height:1.55; }
     .st strong { color:var(--text); font-weight:500; }
     .st a { color:var(--text); font-weight:500; }
+    .divider { height:1px; background:var(--border); margin:0; }
   </style>
 </head>
 <body>
@@ -98,26 +113,46 @@
     <div class="nav-title">Prospection <span class="gold">immo</span></div>
     <button class="nav-key" id="open-modal">
       <div class="kdot" id="kdot"></div>
-      <span id="klabel">Clé API</span>
+      <span id="klabel">Réglages</span>
     </button>
   </nav>
   <main>
-    <div class="input-card">
-      <div class="input-label">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="1" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/><line x1="3" y1="4" x2="9" y2="4" stroke="currentColor" stroke-width="1.2"/><line x1="3" y1="6.5" x2="9" y2="6.5" stroke="currentColor" stroke-width="1.2"/><line x1="3" y1="9" x2="6" y2="9" stroke="currentColor" stroke-width="1.2"/></svg>
-        Description
-      </div>
-      <textarea id="desc" placeholder="Colle ici la description de l'annonce LeBonCoin…"></textarea>
-      <div class="input-hint">
-        <svg style="flex-shrink:0;margin-top:2px" width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.1"/><line x1="6" y1="5.5" x2="6" y2="8.5" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="3.5" r="0.7" fill="currentColor"/></svg>
-        LeBonCoin → appui long sur la description → Sélectionner tout → Copier
+
+    <!-- ONBOARDING (visible seulement si pas configuré) -->
+    <div class="onboard-banner" id="onboard-banner" style="display:none">
+      <div class="onboard-icon">👋</div>
+      <div class="onboard-text">
+        <div class="onboard-title">Bienvenue ! Configure ton profil</div>
+        <div class="onboard-sub">Ajoute ta clé API, ton prénom/nom et ton numéro pour que l'app génère tes messages personnalisés.</div>
+        <button class="onboard-btn" id="onboard-cta">Configurer maintenant →</button>
       </div>
     </div>
+
+    <!-- DESCRIPTION -->
+    <div class="input-card">
+      <div class="input-top">
+        <div class="input-label">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="1" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/><line x1="3" y1="4" x2="9" y2="4" stroke="currentColor" stroke-width="1.2"/><line x1="3" y1="6.5" x2="9" y2="6.5" stroke="currentColor" stroke-width="1.2"/><line x1="3" y1="9" x2="6" y2="9" stroke="currentColor" stroke-width="1.2"/></svg>
+          Description
+        </div>
+        <button class="paste-btn" id="paste-btn">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="3" y="2" width="7" height="9" rx="1.5" stroke="currentColor" stroke-width="1.1"/><path d="M3 4H2a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-1" stroke="currentColor" stroke-width="1.1"/></svg>
+          <span id="paste-label">Coller</span>
+        </button>
+      </div>
+      <textarea id="desc" placeholder="La description de l'annonce apparaîtra ici…"></textarea>
+      <div class="clear-row" id="clear-row" style="display:none">
+        <button class="clear-btn" id="clear-btn">Effacer ✕</button>
+      </div>
+    </div>
+
     <button class="gen-btn" id="gen-btn">Générer le message</button>
+
     <div class="loading" id="loading">
       <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
       <div class="loading-text">Analyse en cours…</div>
     </div>
+
     <div class="result-card" id="result-card">
       <div class="result-top">
         <div class="result-badge">Message prêt</div>
@@ -129,83 +164,174 @@
         <span id="copy-label">Copier</span>
       </button>
     </div>
+
     <div class="error-card" id="error-card"></div>
   </main>
 </div>
 
+<!-- MODAL RÉGLAGES -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-body">
-      <div class="modal-title">Clé API OpenAI</div>
+      <div class="modal-title">Réglages</div>
+
+      <!-- PROFIL -->
       <div class="modal-section">
-        <div class="modal-lbl">Ta clé</div>
+        <div class="modal-lbl">Ton profil</div>
+        <input type="text" class="modal-input regular" id="profile-name" placeholder="Nom (ex: Dupont)">
+        <input type="tel" class="modal-input regular" id="profile-phone" placeholder="Numéro de téléphone (ex: 06 12 34 56 78)" style="margin-top:6px">
+        <div class="modal-row" style="margin-top:4px">
+          <button class="modal-save" id="profile-save" style="width:100%">Enregistrer le profil</button>
+        </div>
+        <div class="modal-st" id="profile-st"></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- CLÉ API -->
+      <div class="modal-section">
+        <div class="modal-lbl">Clé API OpenAI</div>
         <div class="modal-row">
           <input type="password" class="modal-input" id="api-input" placeholder="sk-…">
-          <button class="modal-save" id="api-save">Enregistrer</button>
+          <button class="modal-save" id="api-save">OK</button>
         </div>
         <div class="modal-st" id="modal-st"></div>
       </div>
+
+      <div class="divider"></div>
+
+      <!-- GUIDE -->
       <div class="modal-section">
-        <div class="modal-lbl">Première fois ? 3 min</div>
+        <div class="modal-lbl">Obtenir une clé API — 3 min</div>
         <div class="steps">
           <div class="step"><div class="sn">1</div><div class="st">Va sur <strong><a href="https://platform.openai.com" target="_blank">platform.openai.com</a></strong> et crée un compte</div></div>
           <div class="step"><div class="sn">2</div><div class="st">Menu gauche → <strong>API Keys</strong> → <strong>+ Create new secret key</strong></div></div>
-          <div class="step"><div class="sn">3</div><div class="st">Ajoute <strong>5$ de crédit</strong> (Billing → Add credit) — dure des centaines d'utilisations</div></div>
-          <div class="step"><div class="sn">4</div><div class="st">Copie la clé <strong>sk-…</strong> et colle-la ci-dessus — elle ne s'affiche qu'une seule fois</div></div>
+          <div class="step"><div class="sn">3</div><div class="st">Ajoute <strong>5$ de crédit</strong> une seule fois (Billing → Add credit) — c'est tout ce qu'il faut.</div></div>
+          <div class="step"><div class="sn">4</div><div class="st">Copie la clé <strong>sk-…</strong> et colle-la ci-dessus — elle ne s'affiche qu'une fois</div></div>
+        </div>
+        <div style="background:var(--green-bg);border-radius:var(--r-sm);padding:12px 14px;margin-top:2px;">
+          <div style="font-size:12px;font-weight:500;color:var(--green);margin-bottom:4px;">💡 Combien ça coûte vraiment ?</div>
+          <div style="font-size:12px;color:#2d6a4a;line-height:1.6;">Chaque message généré coûte environ <strong>0,0001€</strong> — soit <strong>un dixième de centime</strong>.<br>Avec 5$, tu peux générer <strong>environ 40 000 messages</strong>.<br>Pour 10 annonces par jour, tes 5$ tiennent <strong>plus de 10 ans</strong>. C'est un investissement unique, pas un abonnement.</div>
         </div>
       </div>
+
     </div>
   </div>
 </div>
 
 <script>
-const CONFIG = { phone: "07 49 44 75 58", signature: "Monsieur Tran" };
 const getKey = () => localStorage.getItem("lbc_key") || "";
 const setKey = k => localStorage.setItem("lbc_key", k);
+const getName = () => localStorage.getItem("lbc_name") || "";
+const getPhone = () => localStorage.getItem("lbc_phone") || "";
+const setName = v => localStorage.setItem("lbc_name", v);
+const setPhone = v => localStorage.setItem("lbc_phone", v);
+
+function isConfigured() { return getKey() && getName() && getPhone(); }
 
 function syncDot() {
-  const ok = !!getKey();
+  const ok = isConfigured();
   document.getElementById("kdot").classList.toggle("ok", ok);
-  document.getElementById("klabel").textContent = ok ? "Clé active" : "Clé API";
 }
 
 window.addEventListener("DOMContentLoaded", () => {
   if (getKey()) document.getElementById("api-input").value = getKey();
+  if (getName()) document.getElementById("profile-name").value = getName();
+  if (getPhone()) document.getElementById("profile-phone").value = getPhone();
   syncDot();
+  // Affiche le banner d'onboarding si pas encore configuré
+  if (!isConfigured()) document.getElementById("onboard-banner").style.display = "flex";
 });
 
+// Ouvrir modal
 document.getElementById("open-modal").onclick = () => document.getElementById("modal").classList.add("show");
-document.getElementById("modal").addEventListener("click", e => { if (e.target === document.getElementById("modal")) document.getElementById("modal").classList.remove("show"); });
+document.getElementById("onboard-cta").onclick = () => document.getElementById("modal").classList.add("show");
+document.getElementById("modal").addEventListener("click", e => {
+  if (e.target === document.getElementById("modal")) document.getElementById("modal").classList.remove("show");
+});
 
+// Sauvegarder profil
+document.getElementById("profile-save").onclick = () => {
+  const name = document.getElementById("profile-name").value.trim();
+  const phone = document.getElementById("profile-phone").value.trim();
+  const st = document.getElementById("profile-st");
+  if (!name || !phone) { st.className = "modal-st ko"; st.textContent = "Remplis les deux champs."; return; }
+  setName(name); setPhone(phone); syncDot();
+  if (isConfigured()) document.getElementById("onboard-banner").style.display = "none";
+  st.className = "modal-st ok"; st.textContent = "Profil enregistré ✓";
+  setTimeout(() => { st.className = "modal-st"; }, 2000);
+};
+
+// Sauvegarder clé API
 document.getElementById("api-save").onclick = () => {
   const k = document.getElementById("api-input").value.trim();
   const st = document.getElementById("modal-st");
   if (!k.startsWith("sk-")) { st.className = "modal-st ko"; st.textContent = "Clé invalide — commence par sk-"; return; }
   setKey(k); syncDot();
-  st.className = "modal-st ok"; st.textContent = "Enregistrée ✓";
+  if (isConfigured()) document.getElementById("onboard-banner").style.display = "none";
+  st.className = "modal-st ok"; st.textContent = "Clé enregistrée ✓";
   setTimeout(() => document.getElementById("modal").classList.remove("show"), 700);
 };
 
+// BOUTON COLLER
+document.getElementById("paste-btn").onclick = async () => {
+  const btn = document.getElementById("paste-btn");
+  const lbl = document.getElementById("paste-label");
+  try {
+    const text = await navigator.clipboard.readText();
+    if (text && text.trim().length > 0) {
+      document.getElementById("desc").value = text.trim();
+      document.getElementById("clear-row").style.display = "flex";
+      btn.classList.add("done");
+      lbl.textContent = "Collé !";
+      setTimeout(() => { btn.classList.remove("done"); lbl.textContent = "Coller"; }, 2000);
+    } else {
+      lbl.textContent = "Vide…";
+      setTimeout(() => { lbl.textContent = "Coller"; }, 1500);
+    }
+  } catch(e) {
+    // Fallback : focus le textarea pour coller manuellement
+    document.getElementById("desc").focus();
+    lbl.textContent = "Colle ici ↓";
+    setTimeout(() => { lbl.textContent = "Coller"; }, 2000);
+  }
+};
+
+// Bouton effacer
+document.getElementById("desc").addEventListener("input", () => {
+  const hasText = document.getElementById("desc").value.length > 0;
+  document.getElementById("clear-row").style.display = hasText ? "flex" : "none";
+});
+document.getElementById("clear-btn").onclick = () => {
+  document.getElementById("desc").value = "";
+  document.getElementById("clear-row").style.display = "none";
+  document.getElementById("result-card").style.display = "none";
+  document.getElementById("error-card").style.display = "none";
+};
+
+// GÉNÉRER
 const generate = async () => {
   if (!getKey()) { document.getElementById("modal").classList.add("show"); return; }
   const desc = document.getElementById("desc").value.trim();
   if (desc.length < 20) { showError("Colle la description de l'annonce avant de générer."); return; }
+  const name = getName() || "Cordialement";
+  const phone = getPhone() || "votre numéro";
   setState("loading");
-  try { showResult(await callAI(getKey(), desc)); }
+  try { showResult(await callAI(getKey(), desc, name, phone)); }
   catch(e) { showError("Erreur : " + e.message + "\n\nVérifie ta clé API."); }
 };
 
 document.getElementById("gen-btn").onclick = generate;
 document.getElementById("regen-btn").onclick = generate;
 
-async function callAI(key, desc) {
+async function callAI(key, desc, name, phone) {
   const res = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: { "Content-Type": "application/json", "Authorization": `Bearer ${key}` },
     body: JSON.stringify({
       model: "gpt-4o-mini", max_tokens: 300,
-      messages: [{ role: "user", content: `Tu es un assistant de prospection immobilière.\n\nDescription de l'annonce :\n---\n${desc.substring(0,2000)}\n---\n\nRédige un message court, simple, naturel (pas commercial).\n\nStructure EXACTE :\n"Bonjour,\nVotre bien m'intéresse pour le [élément 1 concret] et [élément 2 concret].\nPourrions-nous en discuter par téléphone ? Je suis disponible au ${CONFIG.phone}.\n${CONFIG.signature}"\n\nRègles : 2 éléments concrets de la description, naturel, structure exacte, réponse = message uniquement.` }]
+      messages: [{ role: "user", content: `Tu es un assistant de prospection immobilière.\n\nDescription de l'annonce :\n---\n${desc.substring(0,2000)}\n---\n\nRédige un message court, simple, naturel (pas commercial).\n\nStructure EXACTE :\n"Bonjour,\nVotre bien m'intéresse pour le [élément 1 concret] et [élément 2 concret].\nPourrions-nous en discuter par téléphone ? Je suis disponible au ${phone}.\n${name}"\n\nRègles : 2 éléments concrets de la description, naturel, structure exacte, réponse = message uniquement.` }]
     })
   });
   if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e.error?.message || `HTTP ${res.status}`); }
