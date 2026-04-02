@@ -535,7 +535,7 @@ async function callAI(key, desc, name, phone) {
     headers: { "Content-Type": "application/json", "Authorization": `Bearer ${key}` },
     body: JSON.stringify({
       model: "gpt-4o-mini", max_tokens: 300,
-      messages: [{ role: "user", content: `Tu es un assistant de prospection immobilière.\n\nDescription de l'annonce :\n---\n${desc.substring(0,2000)}\n---\n\nRédige un message court, simple, naturel (pas commercial).\n\nStructure EXACTE :\n"Bonjour,\nVotre bien m'intéresse pour le [élément 1 concret] et [élément 2 concret].\nPourrions-nous en discuter par téléphone ? Je suis disponible au ${phone}.\n${name}"\n\nRègles : 2 éléments concrets de la description, naturel, structure exacte, réponse = message uniquement.` }]
+      messages: [{ role: "user", content: `Tu es un assistant de prospection immobilière.\n\nDescription de l'annonce :\n---\n${desc.substring(0,2000)}\n---\n\nRédige un message court, simple, naturel (pas commercial).\n\nStructure EXACTE :\n"Bonjour,\nVotre bien m'intéresse pour le [élément 1 concret] et [élément 2 concret].\nPourrions-nous en discuter par téléphone ? Je suis disponible au ${phone}.\nMonsieur ${name}"\n\nRègles : 2 éléments concrets de la description, naturel, structure exacte, réponse = message uniquement.` }]
     })
   });
   if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e.error?.message || `HTTP ${res.status}`); }
